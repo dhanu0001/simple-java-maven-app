@@ -15,10 +15,6 @@ jobs:
       - checkout
       - run: mvn package
 
-      - store_artifacts:
-         path: /tmp/
-         destination: /tmp/target
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -35,6 +31,10 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
+
+      - store_artifacts:
+         path: /tmp/
+         destination: /tmp/target
 
 workflows:
   version: 2
