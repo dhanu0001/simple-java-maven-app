@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - checkout
-      - run: make build
+      - run: mvn clean package
       - store_artifacts:
          path: /tmp/final_build
 
