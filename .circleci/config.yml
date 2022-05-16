@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cim/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk
 
     working_directory: ~/tmp
 
@@ -16,8 +16,8 @@ jobs:
       - run: mvn package
 
       - store_artifacts:
-         path: /tmp/screenshots
-         destination: screenshot
+         path: /tmp/
+         destination: /tmp/build
 
       # Download and cache dependencies
       - restore_cache:
