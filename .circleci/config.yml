@@ -16,8 +16,8 @@ jobs:
       - run: mvn package
 
       - store_artifacts:
-         path: /tmp/build
-         destination: build
+         path: /tmp/my-app-1.0-SNAPSHOT.jar
+         destination: my-app-1.0-SNAPSHOT.jar
 
       # Download and cache dependencies
       - restore_cache:
