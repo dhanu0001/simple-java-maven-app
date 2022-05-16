@@ -5,7 +5,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
-    working_directory: ~/repo
+    working_directory: ~/tmp
 
     environment:
       # Customize the JVM maximum heap limit
@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - run: mvn package
-      
+
       - store_artifacts:
          path: /tmp/screenshots
          destination: screenshot
