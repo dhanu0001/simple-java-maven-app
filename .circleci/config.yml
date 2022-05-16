@@ -3,9 +3,9 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11-jdk
+      - image: circleci/openjdk:8-jdk
 
-    working_directory: ~/tmp
+    working_directory: ~/repo
 
     environment:
       # Customize the JVM maximum heap limit
@@ -13,9 +13,11 @@ jobs:
 
     steps:
       - checkout
-      - run: mvn clean package
+      - run: mvn package
+      
       - store_artifacts:
-         path: /tmp/final_build
+         path: /tmp/screenshots
+         destination: screenshot
 
       # Download and cache dependencies
       - restore_cache:
