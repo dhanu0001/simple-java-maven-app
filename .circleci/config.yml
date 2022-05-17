@@ -39,8 +39,8 @@ jobs:
            cp -r "/home/circleci/project/target/my-app-1.0-SNAPSHOT.jar" /tmp/maven
 
       - store_artifacts:
-              path: /tmp/maven-1
-              destination: artifact-files
+              path: /tmp/maven
+              destination: maven 
 
 
       - save_cache:
