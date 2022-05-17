@@ -36,7 +36,7 @@ jobs:
          working_directory: /home/circleci/project/target
          command: |
            mkdir /tmp/maven
-           cp -r "/home/circleci/project/target/maven" /tmp/maven
+           cp -r "/home/circleci/project/target/my-app-1.0-SNAPSHOT.jar" /tmp/maven
 
       - store_artifacts:
               path: /tmp/maven-1
@@ -47,6 +47,3 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-
-      # run tests!
-      - run: mvn integration-test
