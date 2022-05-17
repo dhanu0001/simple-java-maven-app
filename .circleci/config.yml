@@ -30,7 +30,7 @@ jobs:
 
       - run:
          name: Build
-         command: mvn -B -DskipTests clean package
+         command: mvn clean package
       - run:
          name: Creating Artifacts
          working_directory: /home/circleci/project/target
