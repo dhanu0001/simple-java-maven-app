@@ -30,7 +30,7 @@ jobs:
           command: |
               #./jfrog config add artifactory-server --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
               ./jfrog config add artifactory-server --artifactory-url="$ARTIFACTORY_URL" --user="$ARTIFACTORY_USER" --password="$ARTIFACTORY_PASSWORD" --interactive=false
-              ./jf rt ping
+              ./jfrog rt ping
               #./jfrog rt u http://ec2-3-91-201-150.compute-1.amazonaws.com:8082/artifactory/libs-snapshot-local/ --build-name=Push to Artifactory --build-number=$CIRCLE_BUILD_NUM
               #./jfrog rt bce <name_you_give_to_build> $CIRCLE_BUILD_NUM
               #./jfrog rt bp <name_you_give_to_build> $CIRCLE_BUILD_NUM
