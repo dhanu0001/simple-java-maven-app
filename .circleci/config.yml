@@ -30,7 +30,8 @@ jobs:
           command: |
               #./jfrog config add artifactory-server --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
               ./jfrog config add artifactory-server --artifactory-url="$ARTIFACTORY_URL" --user="$ARTIFACTORY_USER" --password="$ARTIFACTORY_PASSWORD" --interactive=false
-              ./jfrog rt upload --flat=false "${/home/ubuntu/.m2/repository/com/mycompany/app/my-app/1.0-SNAPSHOT}/*" libs-snapshot-local
+              #./jfrog rt u "multi*/*.jar" libs-snapshot-local --build-name=<name_you_give_to_build> --build-number=$CIRCLE_BUILD_NUM --flat=false
+              #./jfrog rt upload --flat=false "${/home/ubuntu/.m2/repository/com/mycompany/app/my-app/1.0-SNAPSHOT}/*" libs-snapshot-local
               #/home/ubuntu/.m2/repository/com/mycompany/app/my-app/1.0-SNAPSHOT
               #./jfrog rt u <path/to/artifact> <artifactory_repo_name> --build-name=<name_you_give_to_build> --build-number=$CIRCLE_BUILD_NUM
               #./jfrog rt bce <name_you_give_to_build> $CIRCLE_BUILD_NUM
