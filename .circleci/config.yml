@@ -36,7 +36,7 @@ jobs:
               curl -fL https://getcli.jfrog.io | sh
               ./jfrog config add artifactory --artifactory-url=http://ec2-3-91-201-150.compute-1.amazonaws.com:8082/artifactory/libs-snapshot-local/com/mycompany/app/my-app/1.0-SNAPSHOT --interactive=false
               ./jfrog rt ping
-              #./jfrog rt u --url=http://ec2-3-91-201-150.compute-1.amazonaws.com:8082/artifactory/libs-snapshot-local/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-20220627.042117-1.jar --user=admin --password=Admin@2022
+              ./jfrog rt u --url=http://ec2-3-90-199-58.compute-1.amazonaws.com:8082/artifactory/libs-snapshot-local/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-20220712.084853-1.jar libs-release-local/
               #my-app-1.0-20220627.042117-1.jar  --build-number=04 --build-name=my-app
               #./jfrog rt u libs-snapshot-local --build-name=Push to Artifactory --build-number=$CIRCLE_BUILD_NUM
               #./jfrog rt bce <name_you_give_to_build> $CIRCLE_BUILD_NUM
