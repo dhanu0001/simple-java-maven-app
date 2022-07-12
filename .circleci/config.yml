@@ -33,6 +33,8 @@ jobs:
               ./jfrog rt ping
               cd /home/circleci/.m2/repository/com/mycompany/app/my-app/1.0-SNAPSHOT
               ls -lrt
+              curl -fL https://getcli.jfrog.io | sh
+              ./jfrog rt ping
               ./jfrog rt u my-app-1.0-SNAPSHOT.jar generic-local
               #./jfrog rt u --url=http://ec2-3-91-201-150.compute-1.amazonaws.com:8082/artifactory/libs-snapshot-local/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-20220627.042117-1.jar --user=admin --password=Admin@2022
               #my-app-1.0-20220627.042117-1.jar  --build-number=04 --build-name=my-app
