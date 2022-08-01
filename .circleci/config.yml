@@ -6,7 +6,7 @@ version: 2.1
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-  upload-artifact:
+  build-and-test:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # Be sure to update the Docker image tag below to openjdk version of your application.
@@ -14,35 +14,37 @@ jobs:
     docker:
       - image: cimg/openjdk:11.0
     steps:
+      - add_ssh_keys:
+              fingerprints:
+              - "e3:3d:6c:95:a1:b3:35:2c:2f:58:dc:d6:89:c4:38:ea"
       - checkout
       - run:
           name: Build
-          command: mvn dependency:go-offline
+          command: mvn -B -DskipTests clean package
       - run:
-          name: mvn build
+          name: Creating Artifacts
+          working_directory: /home/circleci/project/target
           command: |
-            mvn clean install
+            mkdir /tmp/artifacts;
+            cp -r "/home/circleci/project/webapp/target/webapp.war" /tmp/artifacts;
       - run:
-          name: Install jfrog
-          command: curl -fL https://getcli.jfrog.io | sh  #BASH
-      - run:
-          name: Push to Artifactory
+          name: Deploy Over SSH
           command: |
-              #./jfrog config add artifactory-server --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
-              ./jfrog config add artifactory-server --artifactory-url="$ARTIFACTORY_URL" --interactive=false
-              #./jfrog rt ping
-              cd /home/circleci/.m2/repository/com/mycompany/app/my-app/1.0-SNAPSHOT
-              ls -lrt
-              curl -fL https://getcli.jfrog.io | sh
-              #./jfrog config add artifactory --artifactory-url=http://ec2-3-91-201-150.compute-1.amazonaws.com:8082/artifactory/libs-snapshot-local/com/mycompany/app/my-app/1.0-SNAPSHOT --interactive=false
-              ./jfrog rt ping
-              #./jfrog rt u --url=libs-snapshot-local/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-20220712.084853-1.jar libs-release-local/
-              #my-app-1.0-20220627.042117-1.jar  --build-number=04 --build-name=my-app
-              #./jfrog rt u libs-snapshot-local --build-name= upload-artifact --build-number=$CIRCLE_BUILD_NUM
-              #./jfrog rt bce <name_you_give_to_build> $CIRCLE_BUILD_NUM
-              #./jfrog rt bp <name_you_give_to_build> $CIRCLE_BUILD_NUM
+              #ssh -o StrictHostKeyChecking=no circleuser@ec2-54-91-238-15.compute-1.amazonaws.com
+              scp -o StrictHostKeyChecking=no /home/circleci/project/webapp/target/webapp.war circleuser@ec2-54-226-250-92.compute-1.amazonaws.com:/tmp
+              #sudo ssh circleuser@ec2-54-91-238-15.compute-1.amazonaws.com
+             #sudo spawn ssh circleuser@ec2-18-234-224-234.compute-1.amazonaws.com
+                #scp -r /home/circleci/project/target/maven-web-application.war circleuser@ec2-54-91-238-15.compute-1.amazonaws.com:/tmp
+      - store_artifacts: 
+          path: /tmp/artifacts
+
+      - store_artifacts:
+          path: /tmp/artifacts
+      - run:
+          name: Test
+          command: mvn test
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - upload-artifact
+      - build-and-test
