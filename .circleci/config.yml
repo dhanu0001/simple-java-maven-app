@@ -26,7 +26,7 @@ jobs:
           working_directory: /home/circleci/project/target
           command: |
             mkdir /tmp/artifacts;
-            cp -r "/home/circleci/project/webapp/target/webapp.war" /tmp/artifacts;
+            cp -r "/home/circleci/project/target/my-app-1.0-SNAPSHOT.jar" /tmp/artifacts;
       - run:
           name: Deploy Over SSH
           command: |
