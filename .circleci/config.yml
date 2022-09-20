@@ -21,7 +21,7 @@ jobs:
            mvn clean install
            curl -fL https://getcli.jfrog.io | sh
            ./jfrog rt u /home/circleci/project/target/my-app-1.0-SNAPSHOT.jar maven --url=https://dhanu0001.jfrog.io/artifactory/maven/ --user anju003@ymail.com --apikey AKCp8nGR5PJPD3fafRswrJvbvts2JDQRfoNzn1gZAkCTWGCsDPGGiegsAFr1G4uJ7i2x5sAjy
-           ./jf scan
+           ./jfrog scan
            #echo "https://saks.jfrog.io/artifactory/cx-mvn-loc-poc-dev/:_authToken=$ARTIFACTORY_API_KEY" > ~/.cx-mvn-loc-poc-dev/
       - store_artifacts:
           path: /tmp/my-app-1.0-SNAPSHOT.jar     
