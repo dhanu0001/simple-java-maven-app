@@ -30,4 +30,4 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - upload-artifact:
-           context: artifactory-poc
+           context: artifactory-poc 
