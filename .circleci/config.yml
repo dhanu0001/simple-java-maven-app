@@ -16,18 +16,31 @@ jobs:
     steps:
       - checkout
       - run:
-          name: pushing artifacts
+          name: nstall SonarScanner
           command: |
            mvn clean install
-           curl -fL https://getcli.jfrog.io | sh
-           ./jfrog rt u /home/circleci/project/target/my-app-1.0-SNAPSHOT.jar maven --url=https://dhanu0001.jfrog.io/artifactory/maven/ --user anju003@ymail.com --apikey AKCp8nGR5PJPD3fafRswrJvbvts2JDQRfoNzn1gZAkCTWGCsDPGGiegsAFr1G4uJ7i2x5sAjy
-           ./jfrog audit --mvn
-           #echo "https://saks.jfrog.io/artifactory/cx-mvn-loc-poc-dev/:_authToken=$ARTIFACTORY_API_KEY" > ~/.cx-mvn-loc-poc-dev/
-      - store_artifacts:
-          path: /tmp/my-app-1.0-SNAPSHOT.jar     
-workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
-    jobs:
-      - upload-artifact:
-           context: artifactory-poc 
+           wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+            tar xzf apache-maven-3.5.4-bin.tar.gz
+            rm apache-maven-3.5.4-bin.tar.gz
+            ln -s apache-maven-3.5.4 maven
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
+            unzip sonar-scanner-cli-4.5.0.2216-linux.zip
+            rm sonar-scanner-cli-4.5.0.2216-linux.zip
+            export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+            cd /home/circleci/project/
+            # mvn clean package
+            mvn install -DskipTests
+            mvn checkstyle:checkstyle
+            ls -lrt /home/circleci/project/target/
+            
+      - run:
+          name: Analyze with SonarCloud
+          command: |
+           ./sonar-scanner-4.5.0.2216-linux/bin/sonar-scanner \
+              -Dsonar.projectKey=saks-code-repo \
+              -Dsonar.organization=dhanu0001 \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=97e22ce748b6b6855d1f1fcd0e3ca2323abd0219 \
+              -Dsonar.sources=src/main/java/ \
+              -Dsonar.java.binaries=target/classes
